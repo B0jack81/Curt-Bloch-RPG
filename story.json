@@ -1,0 +1,353 @@
+{
+  "version": 2,
+  "generator": {
+    "minDepth": 5,
+    "maxDepth": 5,
+    "branchingByStep": [
+      3,
+      3,
+      2,
+      4,
+      3
+    ],
+    "earlyDeathSteps": [
+      1,
+      2,
+      3
+    ],
+    "noHintText": true,
+    "places": [
+      "Berlin",
+      "Münster",
+      "München",
+      "Essen",
+      "Turin",
+      "Mailand",
+      "Rom",
+      "Enschede",
+      "Amsterdam",
+      "Ruhrgebiet",
+      "Leipzig",
+      "Hamburg"
+    ]
+  },
+  "groups": {
+    "bloch": {
+      "label": "Künstler",
+      "seed": 4319,
+      "introNote": "Du schreibst im Versteck. Nachrichten sickern herein: Frontberichte, Gerüchte, Flüstern. Die Verse müssen schnell reagieren — und jede Zeile kann Konsequenzen haben.",
+      "timelineFacts": [
+        "Sommer 1943: die Achse zeigt erste Risse; die Niederlage in Nordafrika und Unruhen beeinflussen die Stimmung.",
+        "Ab August 1943 beginnt Curt Bloch mit dem kleinen Heftprojekt, das später unter dem Namen ›Het Onderwater-Cabaret‹ bekannt wird.",
+        "Die Wochenhefte reagieren unmittelbar auf Nachrichten — das macht sie wertvoll, aber auch gefährlich.",
+        "Kurz nach dem Waffenstillstand Italiens (8. Sept. 1943) verschärfte sich die Repression in besetzten Gebieten."
+      ],
+      "italyAnchor": {
+        "title": "Italien erwacht",
+        "promptBits": [
+          "Ein Reim über Italiens Erwachen — wer erwacht, wird gesehen.",
+          "Du setzt eine Zeile an; sie trifft auf aktuelle Nachrichten und sorgt für Reaktionen.",
+          "Die Strophe über Italien ist spitz, sie kann ermuntern oder Hinweis auf gefährliche Zustände geben.",
+          "Das Bild Italiens als zitternde Bühne eignet sich für scharfe Satire — und zieht Blicke an."
+        ]
+      },
+      "contextFragments": [
+        "Nach deiner letzten Entscheidung {LAST}, erreichst du flüsternd verbreitete Zeilen. Die Strophe über Italien kursiert in {PLACE}.",
+        "Dein Blatt wird in einer Küche gefaltet und nachts weitergereicht; jemand liest laut, jemand notiert Namen.",
+        "Die Zeile trifft einen Nerv; in manchen Kreisen wird sie belächelt, in anderen beunruhigt aufgenommen.",
+        "Das Heft ist knapp bemessen: Tinte, Papier, Zeit und Vertrauen sind die Rohstoffe, die bald ausgehen könnten.",
+        "Ein Helfer fragt, ob du die Pointe härter machen willst; ein anderer warnt vor zu viel Öffentlichkeit.",
+        "Manche Leser lachen nervös — ein anderes Mal schweigen sie und legen die Seite bedeckt."
+      ],
+      "choices": [
+        {
+          "t": "Neues Blatt mit aktuellen Versen heimlich vervielfältigen.",
+          "tag": "copy"
+        },
+        {
+          "t": "Die Zeile über Italien umschreiben und noch spitzer formulieren.",
+          "tag": "sharpen"
+        },
+        {
+          "t": "Nur im engsten Kreis vorlesen; keine Verteilung.",
+          "tag": "circle"
+        },
+        {
+          "t": "Einen Boten zu Bekannten schicken, die weiterverteilen.",
+          "tag": "courier"
+        },
+        {
+          "t": "Die Ausgabe ausfallen lassen; Material sparen.",
+          "tag": "pause"
+        },
+        {
+          "t": "Eine harmlose Anekdote einbauen, die Ablenkung schafft.",
+          "tag": "distract"
+        }
+      ],
+      "deathEvents": [
+        {
+          "whenMaxStep": 3,
+          "msg": "Man hat dich identifiziert. Eine Razzia endet in Festnahme. Deine Manuskripte werden beschlagnahmt; über dein Schicksal gibt es später nur Aktenvermerke."
+        },
+        {
+          "whenMaxStep": 2,
+          "msg": "Ein Verräter in eurem Umfeld zeigt die Heftmappe. Du wirst sofort abgeführt; von dir bleibt nur noch eine leere Schreibfeder."
+        }
+      ],
+      "alternateEndings": [
+        {
+          "k": "spread",
+          "msg": "Die Hefte wandern durch Haushalte und Werkstätten. Deine Verse nähren Mut und späte Erinnerung."
+        },
+        {
+          "k": "silence",
+          "msg": "Du unterbrichst die Publikation. Einige Kopien überdauern — dein Name bleibt unbekannt, doch die Wirkung bleibt."
+        },
+        {
+          "k": "arrest",
+          "msg": "Die Gestapo hat eure Spur. Während der Verhöre endet die Publikation, und dein Schicksal wird dokumentiert."
+        },
+        {
+          "k": "exile",
+          "msg": "Ein Helfer bietet Flucht an. Du erreichst das Ausland, verlierst jedoch viele Verbindungen — die Arbeit geht weiter anderswo."
+        },
+        {
+          "k": "material",
+          "msg": "Papier und Tinte werden knapp. Ohne Material enden die Hefte, dein Widerstand wird stumm, aber nicht vergessen."
+        },
+        {
+          "k": "underground",
+          "msg": "Du tauchst tiefer in den Untergrund; die Produktion wird kleiner, aber schwerer zu fassen."
+        }
+      ]
+    },
+    "christ": {
+      "label": "Christen",
+      "seed": 8421,
+      "introNote": "Zwischen Kanzel, Hilfe und heimlichen Kopien ist kein sicherer Ort. Worte können retten, verraten oder zum Opfer führen.",
+      "timelineFacts": [
+        "Einige Geistliche äußerten bereits zuvor Kritik (z. B. gegen die Euthanasie-Aktionen); Repressionen gegen Kirchenmitarbeiter stiegen.",
+        "Im Jahr 1943 wurden zahlreiche Prediger und Laien überwacht und vereinzelt verhaftet.",
+        "Das Verteilen von Flugblättern und Hilfeleistungen war verbreitet, aber riskant; Schutzräume mussten sorgfältig geplant werden.",
+        "Manche Gemeinden halfen, indem sie Menschen versteckten oder Falschangaben machten."
+      ],
+      "contextFragments": [
+        "Nach {LAST} flüstern Gemeindemitglieder über eine verwegene Predigt. Jemand bittet um Hilfe für Gefährdete.",
+        "Die Kanzel ist kein Schutzraum; Beobachter sitzen weiter vorn als früher.",
+        "In der Sakristei werden Briefe kopiert; eine Hand übergibt eine Adresse, die niemand aufschreibt.",
+        "Ein Gemeindemitglied spricht von Flucht; ein anderer mahnt Vorsicht.",
+        "Manche hören nur Abschnitte der Predigt und fragen nach dem prägenden Satz."
+      ],
+      "choices": [
+        {
+          "t": "Eine Passage verfassen, die staatliche Tötungen klar verurteilt.",
+          "tag": "sermon"
+        },
+        {
+          "t": "Ein Flugblatt vervielfältigen und vertrauensvoll übergeben.",
+          "tag": "leaflet"
+        },
+        {
+          "t": "Einer Familie eine temporäre Unterkunft vermitteln.",
+          "tag": "harbor"
+        },
+        {
+          "t": "Diskret Geld und Lebensmittel bereitstellen, ohne Worte.",
+          "tag": "support"
+        },
+        {
+          "t": "Die Predigt vorsichtig formulieren, nur Andeutungen.",
+          "tag": "hint"
+        },
+        {
+          "t": "Nur seelsorgen; keine schriftliche Aktion.",
+          "tag": "pastoral"
+        }
+      ],
+      "deathEvents": [
+        {
+          "whenMaxStep": 3,
+          "msg": "Nach einer Andacht kommen Beamte. Du wirst verhaftet; später zeigt sich, dass du in Haft dein Leben verlierst."
+        },
+        {
+          "whenMaxStep": 2,
+          "msg": "Ein verteiltes Flugblatt führt zu einer Denunziation; Festnahme und anschließende Deportation folgen."
+        }
+      ],
+      "alternateEndings": [
+        {
+          "k": "aid",
+          "msg": "Die Schutzunterkunft funktioniert. Eine Familie übersteht den Winter. Euer Beitrag bleibt eine stumme Erinnerung."
+        },
+        {
+          "k": "trial",
+          "msg": "Ein Prozess bringt Haft. Deine Taten werden protokolliert; die Gemeinde steht unter Druck."
+        },
+        {
+          "k": "whisper",
+          "msg": "Die Predigt wird zitiert und weitergegeben — leise, bruchstückhaft, aber wirksam."
+        },
+        {
+          "k": "cloister",
+          "msg": "Du findest Asyl in einem vertrauten Kloster; dort setzt du die Hilfe fort, jedoch abgeschottet."
+        },
+        {
+          "k": "exile",
+          "msg": "Du fliehst ins Ausland und setzt die Arbeit anders fort. Der Weg ist schwer, aber das Leben bleibt."
+        },
+        {
+          "k": "covert",
+          "msg": "Ihr verlagert Hilfe und Kommunikation komplett ins Verborgene; Präsenz bleibt, aber sichtbar wenig."
+        }
+      ]
+    },
+    "worker": {
+      "label": "Arbeiter",
+      "seed": 2987,
+      "introNote": "Werkhallen, Sirenen, Kontrolle. Kleine Handlungen können große Wirkung haben — aber auch ernste Risiken bergen.",
+      "timelineFacts": [
+        "Im Frühjahr 1943 kam es in Norditalien (z. B. Turin/Fiat) zu Streiks; das zeigte die Verwundbarkeit der Produktion.",
+        "Zwangsarbeiter waren massiver Überwachung ausgesetzt; kleine Interventionen konnten fatale Folgen haben.",
+        "Bombenangriffe und Materialknappheit veränderten Arbeit und Zusammensetzung der Belegschaften.",
+        "Sabotageakte reichten von kleinen Änderungen bis zu organisierten Ausfällen."
+      ],
+      "contextFragments": [
+        "Nach {LAST} ist die Halle lauter als sonst. Flüstern begleitet den Lärm der Maschine.",
+        "Ein Vorarbeiter zählt; Notizen werden gemacht. Wer auffällt, wird markiert.",
+        "In der Pause tauscht man Codes, keine Namen; ein falscher Ton reicht.",
+        "Manche Schichten zeigen kleine Störungen — sie werden als technische Probleme erklärt.",
+        "Die Werkbank birgt Gespräche und Warnungen: Heute vorsichtig, morgen vielleicht mehr."
+      ],
+      "choices": [
+        {
+          "t": "Ein Ersatzteil minimal falsch justieren — unauffällig.",
+          "tag": "sabotage-micro"
+        },
+        {
+          "t": "Schichttausch verabreden, um Kontrollen zu umgehen.",
+          "tag": "shift"
+        },
+        {
+          "t": "Nur schweigen und beobachten; Zeichen sammeln.",
+          "tag": "observe"
+        },
+        {
+          "t": "Einen kurzen Stillstand als Störung melden.",
+          "tag": "stall"
+        },
+        {
+          "t": "Leise Gerüchte streuen, um Stimmung zu testen.",
+          "tag": "rumor"
+        },
+        {
+          "t": "Kontakt zu Exilkreisen suchen — riskant, aber potenziell wirksam.",
+          "tag": "contact"
+        }
+      ],
+      "deathEvents": [
+        {
+          "whenMaxStep": 3,
+          "msg": "Kontrolleure greifen ein. Mehrere Arbeiter werden abgeführt; manche kehren nie zurück."
+        },
+        {
+          "whenMaxStep": 2,
+          "msg": "Ein Spitzel berichtet eure Pläne. Die Folge sind Festnahmen und Transporte in Lager."
+        }
+      ],
+      "alternateEndings": [
+        {
+          "k": "slow",
+          "msg": "Viele kleine Störungen summieren sich — ein Transport verzögert sich, die Wirkung ist diffus."
+        },
+        {
+          "k": "strike",
+          "msg": "Das Band steht still; für kurze Zeit habt ihr Wirkung. Danach ist die Überwachung stärker."
+        },
+        {
+          "k": "caught",
+          "msg": "Ein Protokoll führt zur Identifikation; es folgt Verhaftung und Deportation."
+        },
+        {
+          "k": "exile",
+          "msg": "Du fliehst an eine Grenze und suchst im Ausland Arbeit — dein politisches Leben besteht weiter, jedoch anders."
+        },
+        {
+          "k": "survive",
+          "msg": "Ihr versteckt Aktionen, übersteht die Zeit und bleibt Zeugnis der kleinen Widerstände."
+        },
+        {
+          "k": "eloquence",
+          "msg": "Ein stiller Hinweis in der Halle schafft ein Bewusstsein — langfristig folgt Anerkennung."
+        }
+      ]
+    }
+  },
+  "contextTemplates": {
+    "base": [
+      "{FACT} {ANCHOR} {FRAG}",
+      "{ANCHOR} {FACT} {FRAG}",
+      "{FRAG} {FACT}"
+    ],
+    "anchorBits": {
+      "bloch": [
+        "Dein Blatt kreist um »Italien erwacht«. Die Wörter stehen, als würde jemand neben dir atmen.",
+        "Die Pointe über Italien sitzt; sie klingt wie Nachrichten in Reimform.",
+        "Zwischen Tintengeruch und Unruhe wächst das Gedicht über Italiens Erwachen.",
+        "Die Strophe steht, und die Seite riecht nach Benzin, Tabak und Angst."
+      ],
+      "christ": [
+        "Aus Predigtmitschriften werden Kopien; wer sie liest, nimmt Risiko auf sich.",
+        "Jemand erwähnt ein Urteil gegen Flugblätter; der Tonfall bleibt ruhig, die Hände nicht.",
+        "Eine Andacht endet, eine Observation beginnt.",
+        "Ein Abschnitt der Liturgie wird umgedeutet — und das kann gefährliche Aufmerksamkeit ziehen."
+      ],
+      "worker": [
+        "Aus Italien sickern Meldungen von stillen Werken; in deiner Halle klingen sie nach.",
+        "Kontrollen häufen sich; wer stolpert, stolpert tief.",
+        "Sirenen übertönen den Flurfunk; danach hört man genauer hin.",
+        "Maschinenstimmen verschlucken Flüstern; dennoch finden Ideen Wege."
+      ]
+    },
+    "lastChoiceRef": [
+      "Zuletzt hast du «{LASTTXT}» gewählt.",
+      "Vorher war dein Schritt: «{LASTTXT}» gewählt.",
+      "Der letzte Entschluss: «{LASTTXT}» gewählt."
+    ]
+  },
+  "fatalChoiceMap": {
+    "bloch": {
+      "1": [
+        1
+      ],
+      "2": [
+        2
+      ],
+      "3": [
+        3
+      ]
+    },
+    "christ": {
+      "1": [
+        2
+      ],
+      "2": [
+        1
+      ],
+      "3": [
+        3
+      ]
+    },
+    "worker": {
+      "1": [
+        4
+      ],
+      "2": [
+        1
+      ],
+      "3": [
+        2
+      ]
+    }
+  }
+}

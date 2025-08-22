@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Widerstand 1943 — Entscheidungs-Spiel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f14; --fg:#e6f3ff; --accent:#5ef2a0; --accent2:#78b8ff; --danger:#ff5a6a; --muted:#8aa0b3; --card:#111723; --crt1:rgba(255,255,255,0.04)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 50% -10%, #14202b 0%, #0a0d12 60%, #06080c 100%);color:var(--fg);font-family:'VT323', monospace}
+    .frame{max-width:980px;margin:24px auto;padding:16px}
+    .title{font-family:'Press Start 2P', system-ui;font-size:22px;line-height:1.35;text-align:center;margin:8px 0 12px;color:#dbf1ff;text-shadow:0 2px 0 #000, 0 0 16px #2bc0ff}
+    .subtitle{font-size:17px;text-align:center;color:var(--muted);margin:-2px 0 14px}
+    .screen{position:relative;background:linear-gradient(180deg,#0e1621,#0b121c 50%,#0b1018);border:1px solid #1e2b3a;border-radius:18px;padding:18px 18px 20px;box-shadow:0 12px 40px rgba(0,0,0,.6), inset 0 0 0 2px rgba(255,255,255,.02);overflow:hidden}
+    .scanline::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,var(--crt1) 0 2px,transparent 2px 4px);pointer-events:none;mix-blend-mode:overlay}
+    .glow{box-shadow:0 0 0 1px #0d1b28, 0 0 60px rgba(90,200,255,.12), inset 0 0 24px rgba(255,255,255,.03)}
+    .topbar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .chip{font-size:14px;border:1px solid #2a3a4d;background:#0a121c;border-radius:999px;padding:8px 10px;color:#cfe6ff}
+    .chip strong{color:#9fe3ff}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .progress{height:8px;background:#0a1320;border:1px solid #1f2d3d;border-radius:999px;overflow:hidden}
+    .bar{height:100%;background:linear-gradient(90deg,#40f0a2,#2da0ff);width:0%}
+    .intro,.context,.outcome{background:var(--card);border:1px solid #1f2c33;border-radius:14px;padding:14px 14px 12px;line-height:1.4}
+    .intro p,.context p,.outcome p{margin:0 0 8px;font-size:18px;color:#e6f3ff}
+    .muted{color:#93a9bd}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+    .grid .card{background:linear-gradient(180deg,#0f1823,#0c1520);border:1px solid #1c2a3b;border-radius:16px;padding:14px;min-height:98px;display:flex;flex-direction:column;justify-content:space-between;transition:.12s ease;cursor:pointer;box-shadow:0 10px 20px rgba(0,0,0,.25)}
+    .grid .card:hover{transform:translateY(-3px);box-shadow:0 16px 26px rgba(0,0,0,.36)}
+    .grid .card h3{margin:0 0 8px;font-size:18px;color:#d5ecff}
+    .grid .card p{margin:0;color:#a8c0d6;font-size:16px}
+    .choices{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:10px;margin-top:12px}
+    .choice{background:linear-gradient(180deg,#0f1a27,#0d1722);border:1px solid #1f2d3f;border-radius:14px;padding:12px 12px;font-size:18px;line-height:1.35;color:#cfe6ff;cursor:pointer;text-align:left;transition:.12s ease;box-shadow:0 8px 18px rgba(0,0,0,.22)}
+    .choice:hover{transform:translateY(-2px);box-shadow:0 12px 22px rgba(0,0,0,.28)}
+    .hud{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 10px}
+    .pill{border:1px dashed #274059;background:#0a1420;border-radius:999px;padding:6px 10px;font-size:14px;color:#9dc7ff}
+    .footer{margin-top:14px;font-size:14px;color:#8fa9c2;text-align:center}
+    .btn{display:inline-block;border:1px solid #2a3a4d;background:#0a121c;border-radius:10px;padding:10px 12px;color:#cfe6ff;font-size:16px;cursor:pointer}
+    .btn:hover{background:#0f1b2a}
+    @media (max-width:780px){.grid{grid-template-columns:1fr}.title{font-size:18px}}
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <h1 class="title">Widerstand 1943 — Entscheidungs-Spiel</h1>
+    <div class="subtitle">Künstler (Curt Bloch) · Christen · Arbeiter – 5 Entscheidungen, viele mögliche Ausgänge</div>
+    <div class="screen glow scanline" role="region" aria-label="Spielanzeige">
+      <div class="topbar">
+        <div class="chip">Modus: <strong id="modeLabel">Auswahl</strong></div>
+        <div class="controls">
+          <button class="btn" id="restartBtn" style="display:none">Neu beginnen</button>
+        </div>
+      </div>
+
+      <div class="intro" id="intro">
+        <p><strong>Hinweis:</strong> Dieses Spiel behandelt historischen Widerstand im Jahr 1943. Du triffst Entscheidungen aus der Perspektive einer von drei Gruppen. Über den Antwortmöglichkeiten steht jeweils ein historisch akkurater Text. Fehlentscheidungen können tödliche Folgen haben, teils schon früh.</p>
+      </div>
+
+      <div id="groupSelect" class="grid" aria-label="Einstieg: Wähle eine Perspektive">
+        <button class="card" data-group="bloch" aria-label="Künstler">
+          <h3>Künstler</h3>
+          <p>Ein satirischer Autor im Untergrund: Curt Bloch schreibt im Versteck Verse über die Kriegswirklichkeit.</p>
+        </button>
+        <button class="card" data-group="christ" aria-label="Christen">
+          <h3>Christen</h3>
+          <p>Zwischen Kanzel, Gestapo und Gewissen: Predigt, Flugblatt, Hilfe — alles hat Konsequenzen.</p>
+        </button>
+        <button class="card" data-group="worker" aria-label="Arbeiter">
+          <h3>Arbeiter</h3>
+          <p>Fabrik, Zwangsarbeit, Bombennächte: Gerüchte, Sabotage, Schweigen — jede Wahl verändert den Verlauf.</p>
+        </button>
+      </div>
+
+      <div id="playArea" style="display:none">
+        <div class="hud">
+          <div class="pill" id="stepPill">Kapitel 1/5</div>
+          <div class="pill" id="timePill">Zeit: 1943</div>
+          <div class="pill" id="placePill">Ort: —</div>
+        </div>
+        <div class="progress" aria-hidden="true"><div id="bar" class="bar"></div></div>
+        <div class="context" id="contextBox" aria-live="polite"></div>
+        <div class="choices" id="choices"></div>
+      </div>
+
+      <div id="outcomeArea" style="display:none" class="outcome" aria-live="polite"></div>
+
+      <div class="footer">
+        <span class="muted">Für die Oberstufe (13. Klasse). – © Lernprojekt</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s,root=document)=>root.querySelector(s);
+    const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+
+    const state = {
+      data: null,
+      group: null,
+      step: 1,
+      maxSteps: 5,
+      path: [],
+      place: "—",
+      dead: false,
+      rngSeed: Math.floor(Math.random()*1e9),
+      usedContext: new Set(),
+      usedChoices: new Set()
+    };
+
+    function mulberry32(a){return function(){var t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+    let rand = mulberry32(state.rngSeed);
+
+    const groupSelect = $('#groupSelect');
+    const playArea = $('#playArea');
+    const introBox = $('#intro');
+    const contextBox = $('#contextBox');
+    const choicesBox = $('#choices');
+    const outcomeArea = $('#outcomeArea');
+    const stepPill = $('#stepPill');
+    const timePill = $('#timePill');
+    const placePill = $('#placePill');
+    const bar = $('#bar');
+    const modeLabel = $('#modeLabel');
+    const restartBtn = $('#restartBtn');
+
+    // Load story.json
+    fetch('story.json').then(r=>r.json()).then(json=>{
+      state.data = json;
+      state.maxSteps = json.generator.maxDepth;
+      bindStart();
+    }).catch(err=>{
+      console.error(err);
+      $('#groupSelect').style.display='none';
+      $('#playArea').style.display='none';
+      $('#outcomeArea').style.display='';
+      $('#outcomeArea').innerHTML = '<p>Fehler beim Laden von <code>story.json</code>.</p>';
+    });
+
+    function bindStart(){
+      $$('#groupSelect .card').forEach(btn=>{
+        btn.addEventListener('click', ()=>startGroup(btn.dataset.group));
+      });
+      restartBtn.addEventListener('click', resetGame);
+    }
+
+    function resetGame(){
+      state.group=null; state.step=1; state.path=[]; state.place='—'; state.dead=false;
+      state.usedContext = new Set(); state.usedChoices = new Set();
+      rand = mulberry32(Math.floor(Math.random()*1e9));
+      outcomeArea.style.display='none';
+      playArea.style.display='none';
+      groupSelect.style.display='grid';
+      introBox.style.display='';
+      modeLabel.textContent='Auswahl';
+      restartBtn.style.display='none';
+      bar.style.width='0%';
+    }
+
+    function startGroup(groupKey){
+      state.group = groupKey;
+      const places = state.data.generator.places;
+      state.place = places[Math.floor(rand()*places.length)];
+      modeLabel.textContent = 'Spiel';
+      introBox.style.display='none';
+      groupSelect.style.display='none';
+      playArea.style.display='';
+      restartBtn.style.display='';
+      renderStep();
+    }
+
+    // sample n unique items from arr that are not in usedSet, fallback to any if insufficient
+    function sampleUnique(arr, n, rng, usedSet){
+      const pool = arr.filter(x=>!usedSet.has(x.t || x || JSON.stringify(x)));
+      const source = pool.length >= n ? pool : arr.slice();
+      const out = [];
+      const temp = source.slice();
+      for(let i=0;i<n;i++){
+        const idx = Math.floor(rng()*temp.length);
+        out.push(temp.splice(idx,1)[0]);
+      }
+      return out;
+    }
+
+    function pickUnusedString(arr, rng){
+      const pool = arr.filter(s=>!state.usedContext.has(s));
+      const source = pool.length ? pool : arr.slice();
+      const pick = source[Math.floor(rng()*source.length)];
+      state.usedContext.add(pick);
+      return pick;
+    }
+
+    function renderStep(){
+      const d = state.data;
+      const g = d.groups[state.group];
+
+      stepPill.textContent = `Kapitel ${state.step}/${state.maxSteps}`;
+      placePill.textContent = `Ort: ${state.place}`;
+      timePill.textContent = `Zeit: 1943`;
+      bar.style.width = `${(state.step-1)/(state.maxSteps)*100}%`;
+
+      const facts = g.timelineFacts;
+      const fact = facts[Math.floor(rand()*facts.length)];
+
+      const baseT = d.contextTemplates.base[Math.floor(rand()*d.contextTemplates.base.length)];
+      const lastRefT = d.contextTemplates.lastChoiceRef[Math.floor(rand()*d.contextTemplates.lastChoiceRef.length)];
+      const anchorBits = d.contextTemplates.anchorBits[state.group];
+
+      const anchorSource = (state.group==='bloch') ? g.italyAnchor.promptBits : anchorBits;
+      const anchor = pickUnusedString(anchorSource, rand);
+
+      const frag = pickUnusedString(g.contextFragments, rand);
+      const lastChoiceText = state.path.length ? lastRefT.replace('{LASTTXT}', state.path[state.path.length-1].text) : '';
+      const assembled = baseT
+        .replace('{FACT}', fact)
+        .replace('{ANCHOR}', anchor)
+        .replace('{FRAG}', frag)
+        .replace('{PLACE}', state.place)
+        .replace('{LAST}', lastChoiceText);
+
+      const finalContext = [ lastChoiceText, assembled ].filter(Boolean).join(' ');
+      contextBox.innerHTML = `<p>${sanitize(finalContext)}</p>`;
+
+      // Options: choose branching count from generator, but ensure 2-3 only
+      const branching = Math.min(3, Math.max(2, state.data.generator.branchingByStep[state.step-1] || 3));
+      // sampleUnique ensures not reusing choice texts already used in this run
+      const options = sampleUnique(g.choices, branching, rand, state.usedChoices);
+
+      choicesBox.innerHTML = '';
+      // fatal map
+      const fatalMap = d.fatalChoiceMap[state.group] || {};
+      const fatalIdxs = (fatalMap[state.step] || []).map(x=>x-1);
+
+      options.forEach(opt=>{
+        const btn = document.createElement('button');
+        btn.className = 'choice';
+        btn.textContent = opt.t;
+        // record used text so it won't reappear later in this run
+        // but only record when presenting (so other branches won't show same option)
+        // mark as used now
+        state.usedChoices.add(opt.t);
+        const originalIdx = g.choices.findIndex(c=>c.t===opt.t);
+        const isFatal = fatalIdxs.includes(originalIdx);
+        btn.addEventListener('click', ()=>onChoice(opt, isFatal));
+        choicesBox.appendChild(btn);
+      });
+
+      // chance to change place
+      const places = d.generator.places;
+      if(rand()<0.35) state.place = places[Math.floor(rand()*places.length)];
+    }
+
+    function onChoice(opt, isFatal){
+      state.path.push({step:state.step, text:opt.t, tag:opt.tag});
+      // early death check
+      if(isFatal && state.data.generator.earlyDeathSteps.includes(state.step)){
+        triggerDeath();
+        return;
+      }
+      if(state.step >= state.maxSteps){
+        finishRun();
+      }else{
+        state.step++;
+        renderStep();
+      }
+    }
+
+    function triggerDeath(){
+      state.dead = true;
+      playArea.style.display='none';
+      outcomeArea.style.display='';
+      modeLabel.textContent='Ausgang';
+      const g = state.data.groups[state.group];
+      const de = g.deathEvents.filter(d=>state.step<=d.whenMaxStep);
+      const picked = de.length ? de[Math.floor(rand()*de.length)] : g.deathEvents[0];
+      const text = picked.msg;
+      outcomeArea.innerHTML = `
+        <p style="color:var(--danger)"><strong>Ende:</strong> Du bist gestorben.</p>
+        <p>${sanitize(text)}</p>
+        <p class="muted">Dein Weg: ${state.path.map(p=>p.tag).join(' → ')}</p>
+        <div style="margin-top:8px"><button class="btn" onclick="resetGame()">Nochmal spielen</button></div>
+      `;
+    }
+
+    function finishRun(){
+      playArea.style.display='none';
+      outcomeArea.style.display='';
+      modeLabel.textContent='Konklusion';
+      bar.style.width = '100%';
+      const g = state.data.groups[state.group];
+      const tags = state.path.map(p=>p.tag);
+      let endingKey = 'silence';
+      if(tags.includes('courier') || tags.includes('leaflet') || tags.includes('stall')) endingKey = 'spread';
+      if(tags.includes('sermon') || tags.includes('strike')) endingKey = 'aid';
+      if(tags.includes('sabotage-micro') && Math.random()<0.3) endingKey = 'caught';
+      // prefer non-fatal alternate endings when possible
+      const endObj = g.alternateEndings.find(e=>['spread','aid','silence','slow','strike','survive','exile','underground','cloister','covert','material','whisper','aid','trial','caught','eloquence'].includes(e.k) && e.k===endingKey) || g.alternateEndings[Math.floor(rand()*g.alternateEndings.length)];
+      const endText = endObj.msg;
+      const learnBlock = buildLearnBlock();
+      outcomeArea.innerHTML = `
+        <p><strong>Konklusion:</strong> ${sanitize(endText)}</p>
+        <p>${sanitize(learnBlock)}</p>
+        <p class="muted">Dein Weg: ${state.path.map(p=>p.tag).join(' → ')}</p>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn" onclick="resetGame()">Noch eine Perspektive</button></div>
+      `;
+    }
+
+    function buildLearnBlock(){
+      const d = state.data;
+      const g = d.groups[state.group];
+      const last = state.path[state.path.length-1]?.text || 'eine vorsichtige Geste';
+      const ref = `Dein letzter Schritt («${last}») blieb nicht ohne Wirkung.`;
+      if(state.group==='bloch'){
+        return [
+          ref,
+          "Curt Bloch schrieb im Versteck kleine Hefte (Het Onderwater-Cabaret), die wöchentlich auf Ereignisse reagierten und so Widerstand in satirischer Form leisteten.",
+          "Das Heft ›Italien erwacht‹ steht exemplarisch für Literatur, die politische Umbrüche kommentiert — wirksam, aber riskant.",
+          "Kleine Verteilernetzwerke halfen, Inhalte zu multiplizieren; gleichzeitig stieg das Risiko einer Entdeckung."
+        ].join(' ');
+      }
+      if(state.group==='christ'){
+        return [
+          ref,
+          "Kirchliche Akteure nutzten Predigten, soziale Netzwerke und Verstecke, um Betroffene zu schützen und Kritik zu äußern.",
+          "Viele Taten blieben bewusst unauffällig; andere endeten in Prozessen oder drängten Menschen zur Flucht.",
+          "Die Balance zwischen öffentlichem Zeugnis und privater Hilfe prägte das Handeln."
+        ].join(' ');
+      }
+      return [
+        ref,
+        "Arbeiter*innen konnten durch kleine Störungen, Schichtabsprachen oder Informationsweitergabe die Produktion erschweren.",
+        "Solche Maßnahmen waren riskant: Denunziationen führten zu Festnahmen, einige suchten deshalb Wege ins Ausland.",
+        "Nicht jede Aktion führte sofort zum sichtbaren Erfolg — oft war die Wirkung kumulativ."
+      ].join(' ');
+    }
+
+    function sampleWithoutReplacement(arr, n, rng){
+      if(n>=arr.length) return arr.slice().sort(()=>rng()-0.5);
+      const pool = arr.slice();
+      const out = [];
+      for(let i=0;i<n;i++){
+        const idx = Math.floor(rng()*pool.length);
+        out.push(pool.splice(idx,1)[0]);
+      }
+      return out;
+    }
+    function sanitize(s){return String(s).replace(/[<>&]/g, m => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[m]))}
+
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') resetGame(); });
+  </script>
+</body>
+</html>
